@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="apple-mobile-web-app-title" content="SoccerApp">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="stylesheet" href="style.css">
+	<link rel="shortcut icon" sizes="196x196" href="appicon.png">
+	<link rel="apple-touch-icon" href="appicon.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="appicon.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="appicon.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="appicon.png">
+	<link rel="apple-touch-startup-image" href="appicon.png">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+
+<body>
+	<div class="divbg">
+		<div id="app" id="container">
+			<!-- Top Navigation Menu -->
+			<div class="topnav">
+				<a href="index.html" class="active"><img src="nysl_logo.png" class="logo1">NSYL</a>
+				<div id="myLinks">
+					<a href="index.html">Home</a>
+					<a href="#">Register</a>
+					<a href="#">Contact</a>
+					<a href="#">About</a>
+					<a id="logIn1" v-if="logIn" v-on:click="signIn()" href="#">Log in</a>
+					<a id="logOut1" v-else v-on:click="signOut()" href="#">Log out</a>
+				</div>
+				<a class="icon" @click="menuFunction">
+					<i class="fa fa-bars"></i>
+				</a>
+			</div>
+
+			<div>
+
+				<div class="panel-group" id="accordion">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+
+							<button data-toggle="collapse" data-parent="#accordion" href="#matches">Matches</button>
+
+						</div>
+						<div id="matches" class="panel-collapse collapse">
+							<div class="panel-body">
+								<h5>Next matches</h5>
+
+								<div class="panel-group" id="accordion1">
+									<div class="panel panel-default">
+										<div class="panel-heading">
+
+											<div v-for="match in matches">
+												
+												<a v-bind:id="match.teams" data-toggle="collapse" 
+												data-parent="#accordion1" 
+												v-bind:href="'#' + match.date">{{match.date + "  " + match.teams}}</a>
+												
+											</div>
+										</div>
+											<div v-bind:id="match.date" v-for="match in matches" class="panel-collapse collapse">
+												<div  class="panel-body">
+													
+													<div >{{match.teams}}</div>
+													<div >{{match.stadium}}</div>
+													<iframe v-bind:src="match.map">{{match.map}}</iframe>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+
+									<button data-toggle="collapse" data-parent="#accordion" href="#locations">Locations</button>
+
+								</div>
+								<div id="locations" class="panel-collapse collapse">
+									<div class="panel-group" id="accordion2">
+										<div class="panel panel-default">
+											<div class="panel-heading">
+	
+												<div v-for="match in matches">
+													<ul>
+													<li data-toggle="collapse" 
+													data-parent="#accordion2" 
+													v-bind:href="'#' + match.stadium">
+													<a>{{match.location}}</a>
+													</li>
+												</ul>
+												</div>
+											</div>
+												<div v-bind:id="match.stadium" v-for="match in matches" class="panel-collapse collapse">
+													<div  class="panel-body">
+														
+														<h4>{{match.stadium}}</h4>
+														<iframe v-bind:src="match.map">{{match.map}}</iframe>
+													</div>
+												</div>
+											</div>
+										</div>
+								</div>
+							</div>
+							<div class="panel panel-default" data-parent="#accordion">
+								<div class="panel-heading">
+
+									<button data-toggle="collapse" data-parent="#accordion" href="#results">Results</button>
+
+								</div>
+
+								<div id="results" class="panel-collapse collapse">
+									<div class="panel-body">
+										<h5>Past matches</h5>
+										<ul>
+											<li v-for="match in lastMatches">{{match.date + "/" + match.teams}}</li>
+										</ul>
+									</div>
+
+								</div>
+							</div>
+							<div class="panel panel-default" data-parent="#accordion">
+								<div class="panel-heading">
+
+									<button data-toggle="collapse" data-parent="#accordion" href="#album">Album</button>
+
+								</div>
+								<div id="album" class="panel-collapse collapse">
+									<div class="panel-body"> 
+											<div class="w3-content w3-display-container">
+													<h3>Photos</h3>
+													<p>For more photos, PAY PLEASE</p>
+												  
+												  <div class="slidePhotos">
+													<img class="mySlides" src="ubiqummadrid.jpg">
+													<img class="mySlides" src="ubiqummadrid1.jpg">
+													<img class="mySlides" src="pancho.jpeg">
+													<img class="mySlides" src="descarga.jpg">
+
+												  </div>
+												  
+												<button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+  												<button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+													
+											 </div>
+												  
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+							<div>
+								<button class="open-button" @click="openChat">Chat</button>
+								<div  id="myChat" class="container">
+									<div class="row">
+									  <div class="col-md-5">
+										  <div class="panel panel-primary">
+											  <div class="panel-heading">
+												  <span class="glyphicon glyphicon-comment"></span> Chat
+												
+											  </div>
+											  <div class="panel-body">
+												  <ul class="chat" id="posts">
+													 
+													  
+												   
+												  </ul>
+											  </div>
+											  <div class="panel-footer">
+												  <div class="input-group">
+													  <input id="message" type="text" class="form-control input-sm" placeholder="Log in to chat, babe" />
+													  <span class="input-group-btn">
+														  <button class="btn btn-warning btn-sm" onclick="sendMessage()" id="btn-chat">
+															  Send</button>
+															  <button type="button" class="btn cancel" @click="closeChat">Close</button>
+													  </span>
+												  </div>
+											  </div>
+										  </div>
+									  </div>
+								  </div>
+							  
+
+								
+							</div>
+						</div>
+
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+	
+	<!-- Firebase App is always required and must be first -->
+	<script src="/__/firebase/5.8.5/firebase-app.js"></script>
+
+	<!-- Add additional services that you want to use -->
+	<script src="/__/firebase/5.8.5/firebase-auth.js"></script>
+	<script src="/__/firebase/5.8.5/firebase-database.js"></script>
+	<script src="/__/firebase/5.8.5/firebase-firestore.js"></script>
+	<script src="/__/firebase/5.8.5/firebase-messaging.js"></script>
+	<script src="/__/firebase/5.8.5/firebase-functions.js"></script>
+	<script src="/__/firebase/init.js"></script>
+	<script src="soccer.js"></script>
+	<script src="code.js"></script>
+	
+</body>
+
+</html>

@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "soccer-app-74527",
+    "firebase serve": "soccer-app-74527"
+  }
+}
